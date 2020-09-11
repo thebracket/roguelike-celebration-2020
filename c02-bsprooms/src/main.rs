@@ -2,14 +2,14 @@ use backend::*;
 
 struct RoomBuilder {
     rects: Vec<Rect>,
-    rooms: Vec<Rect>
+    rooms: Vec<Rect>,
 }
 
 impl RoomBuilder {
     fn new() -> Box<Self> {
         Box::new(Self {
             rects: Vec::new(),
-            rooms: Vec::new()
+            rooms: Vec::new(),
         })
     }
 }
@@ -21,7 +21,8 @@ impl MapGen for RoomBuilder {
         let mut frames = Vec::new();
 
         // Make the first room
-        self.rects.push( Rect::with_size(2, 2, WIDTH as i32-5, HEIGHT as i32-5) );
+        self.rects
+            .push(Rect::with_size(2, 2, WIDTH as i32 - 5, HEIGHT as i32 - 5));
 
         // Divide
         let first_room = self.rects[0];
@@ -82,42 +83,59 @@ impl MapGen for RoomBuilder {
 }
 
 impl RoomBuilder {
-
-    fn add_subrects(&mut self, rect : Rect) {
+    fn add_subrects(&mut self, rect: Rect) {
         let width = i32::abs(rect.x1 - rect.x2);
         let height = i32::abs(rect.y1 - rect.y2);
         let half_width = i32::max(width / 2, 1);
         let half_height = i32::max(height / 2, 1);
 
-        self.rects.push(Rect::with_size( rect.x1, rect.y1, half_width, half_height ));
-        self.rects.push(Rect::with_size( rect.x1, rect.y1 + half_height, half_width, half_height ));
-        self.rects.push(Rect::with_size( rect.x1 + half_width, rect.y1, half_width, half_height ));
-        self.rects.push(Rect::with_size( rect.x1 + half_width, rect.y1 + half_height, half_width, half_height ));
+        self.rects
+            .push(Rect::with_size(rect.x1, rect.y1, half_width, half_height));
+        self.rects.push(Rect::with_size(
+            rect.x1,
+            rect.y1 + half_height,
+            half_width,
+            half_height,
+        ));
+        self.rects.push(Rect::with_size(
+            rect.x1 + half_width,
+            rect.y1,
+            half_width,
+            half_height,
+        ));
+        self.rects.push(Rect::with_size(
+            rect.x1 + half_width,
+            rect.y1 + half_height,
+            half_width,
+            half_height,
+        ));
     }
 
-    fn get_random_rect(&mut self, rng : &mut RandomNumberGenerator) -> Rect {
-        if self.rects.len() == 1 { return self.rects[0]; }
-        let idx = (rng.roll_dice(1, self.rects.len() as i32)-1) as usize;
+    fn get_random_rect(&mut self, rng: &mut RandomNumberGenerator) -> Rect {
+        if self.rects.len() == 1 {
+            return self.rects[0];
+        }
+        let idx = (rng.roll_dice(1, self.rects.len() as i32) - 1) as usize;
         self.rects[idx]
     }
 
-    fn get_random_sub_rect(&self, rect : Rect, rng : &mut RandomNumberGenerator) -> Rect {
+    fn get_random_sub_rect(&self, rect: Rect, rng: &mut RandomNumberGenerator) -> Rect {
         let mut result = rect;
         let rect_width = i32::abs(rect.x1 - rect.x2);
         let rect_height = i32::abs(rect.y1 - rect.y2);
 
-        let w = i32::max(3, rng.roll_dice(1, i32::min(rect_width, 10))-1) + 1;
-        let h = i32::max(3, rng.roll_dice(1, i32::min(rect_height, 10))-1) + 1;
+        let w = i32::max(3, rng.roll_dice(1, i32::min(rect_width, 10)) - 1) + 1;
+        let h = i32::max(3, rng.roll_dice(1, i32::min(rect_height, 10)) - 1) + 1;
 
-        result.x1 += rng.roll_dice(1, 6)-1;
-        result.y1 += rng.roll_dice(1, 6)-1;
+        result.x1 += rng.roll_dice(1, 6) - 1;
+        result.y1 += rng.roll_dice(1, 6) - 1;
         result.x2 = result.x1 + w;
         result.y2 = result.y1 + h;
 
         result
     }
 
-    fn is_possible(&self, rect : Rect, map: &Map) -> bool {
+    fn is_possible(&self, rect: Rect, map: &Map) -> bool {
         let mut expanded = rect;
         expanded.x1 -= 2;
         expanded.x2 += 2;
@@ -126,17 +144,24 @@ impl RoomBuilder {
 
         let mut can_build = true;
 
-        for y in expanded.y1 ..= expanded.y2 {
-            for x in expanded.x1 ..= expanded.x2 {
-                if x > WIDTH as i32-2 { can_build = false; }
-                if y > HEIGHT as i32-2 { can_build = false; }
-                if x < 1 { can_build = false; }
-                if y < 1 { can_build = false; }
+        for y in expanded.y1..=expanded.y2 {
+            for x in expanded.x1..=expanded.x2 {
+                if x > WIDTH as i32 - 2 {
+                    can_build = false;
+                }
+                if y > HEIGHT as i32 - 2 {
+                    can_build = false;
+                }
+                if x < 1 {
+                    can_build = false;
+                }
+                if y < 1 {
+                    can_build = false;
+                }
                 if can_build {
-
                     if let Some(idx) = map.try_idx(Point::new(x, y)) {
-                        if map.tiles[idx].0 != to_cp437('.') { 
-                            can_build = false; 
+                        if map.tiles[idx].0 != to_cp437('.') {
+                            can_build = false;
                         }
                     } else {
                         can_build = false;

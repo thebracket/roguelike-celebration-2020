@@ -1,11 +1,10 @@
 use backend::*;
 
-struct RoomBuilder {
-}
+struct RoomBuilder {}
 
 impl RoomBuilder {
     fn new() -> Box<Self> {
-        Box::new(Self{})
+        Box::new(Self {})
     }
 }
 
@@ -19,23 +18,30 @@ impl MapGen for RoomBuilder {
 
         frames.push((map.clone(), "Start Solid".to_string()));
 
-        drunk(&mut map, Point::new(WIDTH/2, HEIGHT/2), &mut rng);
+        drunk(&mut map, Point::new(WIDTH / 2, HEIGHT / 2), &mut rng);
         frames.push((map.clone(), "First Drunken Digger".to_string()));
 
         let mut i = 2;
-        while map.tiles.iter().filter(|t| t.0 == to_cp437('#')).count() < (WIDTH*HEIGHT)/3 {
-            map.tiles.iter_mut().filter(|t| t.1 == RGB::named(RED)).for_each(|t| t.1 = RGB::named(GREEN));
+        while map.tiles.iter().filter(|t| t.0 == to_cp437('#')).count() < (WIDTH * HEIGHT) / 3 {
+            map.tiles
+                .iter_mut()
+                .filter(|t| t.1 == RGB::named(RED))
+                .for_each(|t| t.1 = RGB::named(GREEN));
 
-            let open_tiles : Vec<usize> = map
+            let open_tiles: Vec<usize> = map
                 .tiles
                 .iter()
                 .enumerate()
-                .filter(|(_,t)| t.0 == to_cp437('#'))
-                .map(|(i,_)| i)
+                .filter(|(_, t)| t.0 == to_cp437('#'))
+                .map(|(i, _)| i)
                 .collect();
             let target = rng.random_slice_entry(&open_tiles);
             if let Some(target) = target {
-                drunk(&mut map, Point::new(target % WIDTH, target / WIDTH), &mut rng);
+                drunk(
+                    &mut map,
+                    Point::new(target % WIDTH, target / WIDTH),
+                    &mut rng,
+                );
                 frames.push((map.clone(), format!("Drunken Digger {}", i)));
                 i += 1;
             }
