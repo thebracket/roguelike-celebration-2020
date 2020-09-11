@@ -77,7 +77,12 @@ impl GameState for State {
             }
         }
 
-        ctx.print_centered(0, &self.frames[self.current_frame].1);
+        ctx.print_color_centered(
+            0, 
+            RGB::named(WHITE),
+            RGB::named(BLACK),
+            &self.frames[self.current_frame].1
+        );
 
         let mut should_continue = true;
         if let Some(key) = ctx.key {
