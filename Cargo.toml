@@ -19,5 +19,7 @@ members = [
     "c06-dla-attractor",
     "c07-dla-symmetry",
     "c08-dla-erosion",
-    "c09-combination"
+    "c09-combination",
+    "c10-perlin",
+    "c11-overworld"
 ]
