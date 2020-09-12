@@ -29,7 +29,7 @@ impl MapGen for RoomBuilder {
         self.add_subrects(first_room);
 
         let mut map = Map::new();
-        for (i, room) in self.rects.iter().enumerate() {
+        for (_i, room) in self.rects.iter().enumerate() {
             room.for_each(|p| {
                 map.set(p, to_cp437('#'), RGB::named(YELLOW));
             });
@@ -54,7 +54,7 @@ impl MapGen for RoomBuilder {
         // Sort it
         self.rooms.sort_by(|a, b| a.x1.cmp(&b.x1));
         map.clear_default();
-        for (iteration, room) in self.rooms.iter().enumerate() {
+        for (_iteration, room) in self.rooms.iter().enumerate() {
             room.for_each(|p| {
                 map.set(p, to_cp437('#'), RGB::named(YELLOW));
             });
