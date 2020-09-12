@@ -216,6 +216,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "c06-dla-attractor"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
+]
+
+[[package]]
+name = "c07-dla-symmetry"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
+]
+
+[[package]]
 name = "calloop"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"

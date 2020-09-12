@@ -15,5 +15,7 @@ members = [
     "c02-bsprooms",
     "c03-cellular",
     "c04-drunkard",
-    "c05-dla"
+    "c05-dla",
+    "c06-dla-attractor",
+    "c07-dla-symmetry"
 ]
