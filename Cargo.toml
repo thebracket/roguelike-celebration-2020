@@ -21,5 +21,6 @@ members = [
     "c08-dla-erosion",
     "c09-combination",
     "c10-perlin",
-    "c11-overworld"
+    "c11-overworld",
+    "c12-noisezoom"
 ]
