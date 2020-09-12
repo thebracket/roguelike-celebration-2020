@@ -18,5 +18,6 @@ members = [
     "c05-dla",
     "c06-dla-attractor",
     "c07-dla-symmetry",
-    "c08-dla-erosion"
+    "c08-dla-erosion",
+    "c09-combination"
 ]
