@@ -22,5 +22,6 @@ members = [
     "c09-combination",
     "c10-perlin",
     "c11-overworld",
-    "c12-noisezoom"
+    "c12-noisezoom",
+    "c13-double-noise"
 ]
