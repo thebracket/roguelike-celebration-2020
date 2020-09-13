@@ -25,5 +25,6 @@ members = [
     "c11-overworld",
     "c12-noisezoom",
     "c13-double-noise",
-    "c14-not-a-trap"
+    "c14-not-a-trap",
+    "c15-still-not-a-trap"
 ]
