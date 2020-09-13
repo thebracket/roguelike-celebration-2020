@@ -24,5 +24,6 @@ members = [
     "c10-perlin",
     "c11-overworld",
     "c12-noisezoom",
-    "c13-double-noise"
+    "c13-double-noise",
+    "c14-not-a-trap"
 ]
