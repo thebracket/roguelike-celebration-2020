@@ -33,55 +33,34 @@ impl MapGen for RoomBuilder {
 
         frames.push((map.clone(), "Cellular Automata Map".to_string()));
 
-        let string_vec: Vec<char> = NOT_TRAP
-            .chars()
-            .filter(|a| *a != '\r' && *a != '\n')
-            .collect();
+        // Find a central starting point
+        let start = map.tiles.iter()
+            .enumerate()
+            .map(|(i,(tt, _col))| (i, *tt))
+            .filter(|(_i, tt)| *tt == to_cp437('#'))
+            .map(|(i, _tt)| (i, DistanceAlg::Pythagoras.distance2d(Point::new(WIDTH/2, HEIGHT/2), Point::new(i % WIDTH, i / WIDTH))))
+            .min_by(|a,b| a.1.partial_cmp(&b.1).unwrap())
+            .unwrap()
+            .0;
+        map.set(Point::new(start % WIDTH, start / WIDTH), to_cp437('@'), RGB::named(GOLD));
+        frames.push((map.clone(), "Central Open Point".to_string()));
 
-        loop {
-            let base = Point::new(
-                rng.range(1, WIDTH-10),
-                rng.range(1, HEIGHT-10)
-            );
-            let mut can_build = true;
-            let target = Rect::with_size(base.x, base.y, 6, 5);
-            target.for_each(|p| {
-                let idx = mapidx(p.x, p.y);
-                if map.tiles[idx].0 != to_cp437('#') {
-                    can_build = false;
+        // Build a Dijkstra Map
+        let dijkstra = DijkstraMap::new(WIDTH, HEIGHT, &[start], &map, 1024.0);
+        for (i, d) in dijkstra.map.iter().enumerate() {
+            if map.tiles[i].0 == to_cp437('#') {
+                if *d < 2000.0 {
+                    map.tiles[i].1 = RGB::from_f32(0.0, 1.0 - (d / 100.0), 0.0);
+                } else {
+                    map.tiles[i].1 = RGB::named(RED);
                 }
-            });
-            if can_build {
-                let mut i = 0;
-                for y in 0..5 {
-                    for x in 0..6 {
-                        let pt = Point::new(x, y) + base;
-                        match string_vec[i] {
-                            '$' => map.set(pt, to_cp437('$'), RGB::named(GOLD)),
-                            '^' => map.set(pt, to_cp437('^'), RGB::named(RED)),
-                            _ => {}
-                        }
-                        i += 1;
-                    }
-                }
-
-                break;
             }
         }
-
-        frames.push((map.clone(), "Found a place for the prefab".to_string()));
+        frames.push((map.clone(), "Mark Reachable/Unreachable".to_string()));
 
         frames
     }
 }
-
-const NOT_TRAP : &str = "
-......
-.^^^^.
-.^$$^.
-.^^^^.
-......
-";
 
 fn count_neighbors(map: &Map, x: usize, y: usize) -> usize {
     let mut n = 0;

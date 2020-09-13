@@ -44,6 +44,35 @@ impl Map {
     }
 }
 
+impl BaseMap for Map {
+    fn get_available_exits(&self, idx: usize) -> SmallVec<[(usize, f32); 10]> {
+        let mut exits = SmallVec::new();
+
+        let x = idx % WIDTH;
+        let y = idx / WIDTH;
+
+        if x > 0 && self.tiles[idx-1].0 == to_cp437('#') { exits.push((idx-1, 1.0)) }
+        if x < WIDTH-1 && self.tiles[idx+1].0 == to_cp437('#') { exits.push((idx+1, 1.0)) }
+        if y > 0 && self.tiles[idx - WIDTH].0 == to_cp437('#') { exits.push((idx - WIDTH, 1.0)) }
+        if y < HEIGHT-1 && self.tiles[idx + WIDTH].0 == to_cp437('#') { exits.push((idx + WIDTH, 1.0)) }
+
+        exits
+    }
+
+    fn get_pathing_distance(&self, idx1: usize, idx2: usize) -> f32 {
+        DistanceAlg::Pythagoras.distance2d(
+            Point::new(idx1 % WIDTH, idx1 / WIDTH),
+            Point::new(idx2 % WIDTH, idx2 / WIDTH)
+        )
+    }
+}
+
+impl Algorithm2D for Map {
+    fn dimensions(&self) -> Point {
+        Point::new(WIDTH, HEIGHT)
+    }
+}
+
 pub fn mapidx(x: i32, y: i32) -> usize {
     ((y * WIDTH as i32) + x) as usize
 }
