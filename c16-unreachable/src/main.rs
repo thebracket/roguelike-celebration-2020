@@ -34,15 +34,29 @@ impl MapGen for RoomBuilder {
         frames.push((map.clone(), "Cellular Automata Map".to_string()));
 
         // Find a central starting point
-        let start = map.tiles.iter()
+        let start = map
+            .tiles
+            .iter()
             .enumerate()
-            .map(|(i,(tt, _col))| (i, *tt))
+            .map(|(i, (tt, _col))| (i, *tt))
             .filter(|(_i, tt)| *tt == to_cp437('#'))
-            .map(|(i, _tt)| (i, DistanceAlg::Pythagoras.distance2d(Point::new(WIDTH/2, HEIGHT/2), Point::new(i % WIDTH, i / WIDTH))))
-            .min_by(|a,b| a.1.partial_cmp(&b.1).unwrap())
+            .map(|(i, _tt)| {
+                (
+                    i,
+                    DistanceAlg::Pythagoras.distance2d(
+                        Point::new(WIDTH / 2, HEIGHT / 2),
+                        Point::new(i % WIDTH, i / WIDTH),
+                    ),
+                )
+            })
+            .min_by(|a, b| a.1.partial_cmp(&b.1).unwrap())
             .unwrap()
             .0;
-        map.set(Point::new(start % WIDTH, start / WIDTH), to_cp437('@'), RGB::named(GOLD));
+        map.set(
+            Point::new(start % WIDTH, start / WIDTH),
+            to_cp437('@'),
+            RGB::named(GOLD),
+        );
         frames.push((map.clone(), "Central Open Point".to_string()));
 
         // Build a Dijkstra Map

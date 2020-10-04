@@ -51,10 +51,18 @@ impl BaseMap for Map {
         let x = idx % WIDTH;
         let y = idx / WIDTH;
 
-        if x > 0 && self.tiles[idx-1].0 == to_cp437('#') { exits.push((idx-1, 1.0)) }
-        if x < WIDTH-1 && self.tiles[idx+1].0 == to_cp437('#') { exits.push((idx+1, 1.0)) }
-        if y > 0 && self.tiles[idx - WIDTH].0 == to_cp437('#') { exits.push((idx - WIDTH, 1.0)) }
-        if y < HEIGHT-1 && self.tiles[idx + WIDTH].0 == to_cp437('#') { exits.push((idx + WIDTH, 1.0)) }
+        if x > 0 && self.tiles[idx - 1].0 != to_cp437('.') {
+            exits.push((idx - 1, 1.0))
+        }
+        if x < WIDTH - 1 && self.tiles[idx + 1].0 != to_cp437('.') {
+            exits.push((idx + 1, 1.0))
+        }
+        if y > 0 && self.tiles[idx - WIDTH].0 != to_cp437('.') {
+            exits.push((idx - WIDTH, 1.0))
+        }
+        if y < HEIGHT - 1 && self.tiles[idx + WIDTH].0 != to_cp437('.') {
+            exits.push((idx + WIDTH, 1.0))
+        }
 
         exits
     }
@@ -62,7 +70,7 @@ impl BaseMap for Map {
     fn get_pathing_distance(&self, idx1: usize, idx2: usize) -> f32 {
         DistanceAlg::Pythagoras.distance2d(
             Point::new(idx1 % WIDTH, idx1 / WIDTH),
-            Point::new(idx2 % WIDTH, idx2 / WIDTH)
+            Point::new(idx2 % WIDTH, idx2 / WIDTH),
         )
     }
 }

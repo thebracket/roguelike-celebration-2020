@@ -96,7 +96,10 @@ impl MapGen for RoomBuilder {
                 i += 1;
             }
         }
-        frames.push((map.clone(), "This Prefab is Definitely Not A Trap".to_string()));
+        frames.push((
+            map.clone(),
+            "This Prefab is Definitely Not A Trap".to_string(),
+        ));
 
         // Place the prefab
         map = room_map;
@@ -143,7 +146,7 @@ fn apply_vertical_tunnel(y1: i32, y2: i32, x: i32, map: &mut Map) {
     }
 }
 
-const NOT_TRAP : &str = "
+const NOT_TRAP: &str = "
 ......
 .^^^^.
 .^$$^.

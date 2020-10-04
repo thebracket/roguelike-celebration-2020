@@ -11,6 +11,7 @@ edition = "2018"
 [workspace]
 members = [
     "backend",
+    "intro",
     "c01-rooms",
     "c02-bsprooms",
     "c03-cellular",
@@ -27,5 +28,10 @@ members = [
     "c13-double-noise",
     "c14-not-a-trap",
     "c15-still-not-a-trap",
-    "c16-unreachable"
+    "c16-unreachable",
+    "c17-starting-left",
+    "c18-ending-right",
+    "c19-ending-dijkstra",
+    "c20-hot-path",
+    "c21-hot-rooms"
 ]

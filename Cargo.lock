@@ -300,6 +300,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "c17-starting-left"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
+]
+
+[[package]]
+name = "c18-ending-right"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
+]
+
+[[package]]
+name = "c19-ending-dijkstra"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
+]
+
+[[package]]
+name = "c20-hot-path"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
+]
+
+[[package]]
+name = "c21-hot-rooms"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
+]
+
+[[package]]
 name = "calloop"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -680,6 +715,13 @@ dependencies = [
  "js-sys 0.3.45 (registry+https://github.com/rust-lang/crates.io-index)",
  "wasm-bindgen 0.2.68 (registry+https://github.com/rust-lang/crates.io-index)",
  "web-sys 0.3.45 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "intro"
+version = "0.1.0"
+dependencies = [
+ "backend 0.1.0",
 ]
 
 [[package]]

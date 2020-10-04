@@ -39,10 +39,7 @@ impl MapGen for RoomBuilder {
             .collect();
 
         loop {
-            let base = Point::new(
-                rng.range(1, WIDTH-10),
-                rng.range(1, HEIGHT-10)
-            );
+            let base = Point::new(rng.range(1, WIDTH - 10), rng.range(1, HEIGHT - 10));
             let mut can_build = true;
             let target = Rect::with_size(base.x, base.y, 6, 5);
             target.for_each(|p| {
@@ -75,7 +72,7 @@ impl MapGen for RoomBuilder {
     }
 }
 
-const NOT_TRAP : &str = "
+const NOT_TRAP: &str = "
 ......
 .^^^^.
 .^$$^.
